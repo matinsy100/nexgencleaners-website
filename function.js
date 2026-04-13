@@ -29,7 +29,7 @@ async function submitQuote(e) {
 
   const SCRIPT_URLS = [
     'https://script.google.com/macros/s/AKfycbz3Kbrk1M4a2iEluopjol9iVHtrnH-m5LNW4XQJ5cpFXJCbehYY1iDstTBxdBEgXo-2sg/exec',
-    'https://script.google.com/macros/s/AKfycbzNvPkbYvntfxMRYLIrGVJgKoaXSxrh4QLFPJMm2qVGkzBbHgpo-w3KL5SBU-bM1AQC/exec'
+    'https://script.google.com/macros/s/AKfycbx54Goy-rwSCK4Z-fxuPvewl0Ln6bN9g9D_SvEs5kZRm8HTxageimX5q8MnBhhkD2kX/exec'
   ];
 
   try {
