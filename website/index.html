@@ -1233,43 +1233,61 @@
   const dots
 </script>
 
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Slideshow — runs after DOM is fully loaded
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots
+</script>
+
 <script>
 async function submitQuote(e) {
+  // 1. Prevent the page from refreshing
   e.preventDefault();
 
   const form = document.getElementById('quoteForm');
-  const btn  = form.querySelector('.form-submit');
-  const inputs = form.querySelectorAll('input, select, textarea');
+  if (!form) return; // Safety check
 
-  // Basic validation
-  const firstName = form.querySelector('input[placeholder="Jane"]').value.trim();
-  const email     = form.querySelector('input[type="email"]').value.trim();
-  if (!firstName || !email) {
+  const btn = form.querySelector('.form-submit');
+  
+  // 2. Identify inputs carefully
+  const firstNameInput = form.querySelector('input[placeholder="Jane"]');
+  const emailInput = form.querySelector('input[type="email"]');
+
+  // 3. Basic validation
+  if (!firstNameInput || !emailInput || !firstNameInput.value.trim() || !emailInput.value.trim()) {
     alert('Please fill in at least your name and email.');
     return;
   }
 
-  // Disable button while sending
+  const firstName = firstNameInput.value.trim();
+  const email = emailInput.value.trim();
+
+  // 4. Disable button while sending
   btn.textContent = 'Sending…';
   btn.disabled = true;
 
+  // 5. Gather data from your selects and inputs
+  const allSelects = form.querySelectorAll('select');
+  
   const data = {
     token:        'nexgen-quote-2026',
     firstName:    firstName,
-    lastName:     form.querySelector('input[placeholder="Smith"]').value.trim(),
+    lastName:     form.querySelector('input[placeholder="Smith"]')?.value.trim() || '',
     email:        email,
-    phone:        form.querySelector('input[type="tel"]').value.trim(),
-    service:      form.querySelector('#modalServiceSelect').value,
-    propertyType: form.querySelectorAll('select')[1].value,
-    bedrooms:     form.querySelectorAll('select')[2].value,
-    bathrooms:    form.querySelectorAll('select')[3].value,
-    size:         form.querySelectorAll('select')[4].value,
-    notes:        form.querySelector('textarea').value.trim()
+    phone:        form.querySelector('input[type="tel"]')?.value.trim() || '',
+    service:      form.querySelector('#modalServiceSelect')?.value || 'Not Specified',
+    propertyType: allSelects[1]?.value || '',
+    bedrooms:     allSelects[2]?.value || '',
+    bathrooms:    allSelects[3]?.value || '',
+    size:         allSelects[4]?.value || '',
+    notes:        form.querySelector('textarea')?.value.trim() || ''
   };
 
-const SHEET_URL = '/.netlify/functions/quote';
-  
-try {
+  // This calls your single Netlify function
+  const SHEET_URL = '/.netlify/functions/quote';
+
+  try {
     const response = await fetch(SHEET_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1278,24 +1296,33 @@ try {
 
     if (!response.ok) throw new Error('Function failed');
 
-    // Success UI logic
+    // 6. Success UI Feedback
     btn.textContent = '✓ Request Sent!';
     btn.style.background = '#6B7B5E';
+    
     setTimeout(() => {
       form.reset();
       btn.textContent = 'Send My Request →';
       btn.style.background = '';
       btn.disabled = false;
-      closeQuoteModal();
+      
+      // Close modal if the function exists
+      if (typeof closeQuoteModal === "function") {
+        closeQuoteModal();
+      }
     }, 2500);
 
   } catch (err) {
+    console.error('Submission error:', err);
     alert('Something went wrong. Please call us at (587) 839-5484.');
     btn.textContent = 'Send My Request →';
     btn.disabled = false;
   }
 }
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
