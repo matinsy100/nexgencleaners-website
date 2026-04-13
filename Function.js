@@ -1,10 +1,8 @@
 async function submitQuote(e) {
   e.preventDefault();
-
   const form = document.getElementById('quoteForm');
   const btn  = form.querySelector('.form-submit');
 
-  // Basic validation
   const firstName = form.querySelector('input[placeholder="Jane"]').value.trim();
   const email     = form.querySelector('input[type="email"]').value.trim();
   if (!firstName || !email) {
@@ -12,7 +10,6 @@ async function submitQuote(e) {
     return;
   }
 
-  // Disable button while sending
   btn.textContent = 'Sending…';
   btn.disabled = true;
 
@@ -31,12 +28,11 @@ async function submitQuote(e) {
   };
 
   const SCRIPT_URLS = [
-    'https://script.google.com/macros/s/AKfycbxA4e7XfJdJQMQBQd9b3ZtIiu0qoLnPfezLuTPUKFjF6EnnV5QqMTfuOybdggFzA2mQ/exec',
-    'https://script.google.com/macros/s/AKfycbzlQzJQqebUN18IoFTNArLeFEmObO6-14exbI25WZBfLEHNKPRDPgVop9WwJQ-uODDoqA/exec'
+    'https://script.google.com/macros/s/AKfycbxRFf3AD8wvhoCs_-TUxVgqYZnIyfc2lR5iXGam1cfTuGPTwIeqxbG4P-_sxofJG-JjaA/exec',
+    'https://script.google.com/macros/s/AKfycbzNvPkbYvntfxMRYLIrGVJgKoaXSxrh4QLFPJMm2qVGkzBbHgpo-w3KL5SBU-bM1AQC/exec'
   ];
 
   try {
-    // Send as URL params via GET to avoid CORS preflight issues
     await Promise.all(SCRIPT_URLS.map(url => {
       const params = new URLSearchParams(data);
       return fetch(url + '?' + params.toString(), {
@@ -45,7 +41,6 @@ async function submitQuote(e) {
       });
     }));
 
-    // Success
     btn.textContent = '✓ Request Sent!';
     btn.style.background = '#6B7B5E';
     setTimeout(() => {
@@ -55,7 +50,6 @@ async function submitQuote(e) {
       btn.disabled = false;
       closeQuoteModal();
     }, 2500);
-
   } catch (err) {
     alert('Something went wrong. Please call us at (587) 839-5484.');
     btn.textContent = 'Send My Request →';
