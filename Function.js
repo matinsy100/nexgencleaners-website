@@ -31,31 +31,34 @@ async function submitQuote(e) {
   };
 
   const SCRIPT_URLS = [
-    'https://script.google.com/macros/s/AKfycbwg-LRLUAJahrpZdj6_MoRtp_uFz6YAQZoaGsj6ac6uQb8miaBWkvH9x5bMcdzVHRj5/exec',
-    'https://script.google.com/macros/s/AKfycbzsxWqAUjSW7RDSzGUb0ivQ2f5CSKtF4_aoJoXVSuBCwY2JkJyM87C2OpTSSGC3ul9P/exec'
+    'https://script.google.com/macros/s/AKfycbxA4e7XfJdJQMQBQd9b3ZtIiu0qoLnPfezLuTPUKFjF6EnnV5QqMTfuOybdggFzA2mQ/exec',
+    'https://script.google.com/macros/s/AKfycbzlQzJQqebUN18IoFTNArLeFEmObO6-14exbI25WZBfLEHNKPRDPgVop9WwJQ-uODDoqA/exec'
   ];
 
   try {
-    // Send to both Google Apps Script URLs
-    await Promise.all(SCRIPT_URLS.map(url =>
+    const results = await Promise.all(SCRIPT_URLS.map(url =>
       fetch(url, {
         method: 'POST',
-        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
-      })
+      }).then(res => res.json())
     ));
 
-    // Success
-    btn.textContent = '✓ Request Sent!';
-    btn.style.background = '#6B7B5E';
-    setTimeout(() => {
-      form.reset();
-      btn.textContent = 'Send My Request →';
-      btn.style.background = '';
-      btn.disabled = false;
-      closeQuoteModal();
-    }, 2500);
+    const allSuccess = results.every(r => r.result === 'success');
+
+    if (allSuccess) {
+      btn.textContent = '✓ Request Sent!';
+      btn.style.background = '#6B7B5E';
+      setTimeout(() => {
+        form.reset();
+        btn.textContent = 'Send My Request →';
+        btn.style.background = '';
+        btn.disabled = false;
+        closeQuoteModal();
+      }, 2500);
+    } else {
+      throw new Error('One or more scripts failed');
+    }
 
   } catch (err) {
     alert('Something went wrong. Please call us at (587) 839-5484.');
