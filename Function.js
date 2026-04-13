@@ -36,29 +36,25 @@ async function submitQuote(e) {
   ];
 
   try {
-    const results = await Promise.all(SCRIPT_URLS.map(url =>
-      fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      }).then(res => res.json())
-    ));
+    // Send as URL params via GET to avoid CORS preflight issues
+    await Promise.all(SCRIPT_URLS.map(url => {
+      const params = new URLSearchParams(data);
+      return fetch(url + '?' + params.toString(), {
+        method: 'GET',
+        mode: 'no-cors'
+      });
+    }));
 
-    const allSuccess = results.every(r => r.result === 'success');
-
-    if (allSuccess) {
-      btn.textContent = '✓ Request Sent!';
-      btn.style.background = '#6B7B5E';
-      setTimeout(() => {
-        form.reset();
-        btn.textContent = 'Send My Request →';
-        btn.style.background = '';
-        btn.disabled = false;
-        closeQuoteModal();
-      }, 2500);
-    } else {
-      throw new Error('One or more scripts failed');
-    }
+    // Success
+    btn.textContent = '✓ Request Sent!';
+    btn.style.background = '#6B7B5E';
+    setTimeout(() => {
+      form.reset();
+      btn.textContent = 'Send My Request →';
+      btn.style.background = '';
+      btn.disabled = false;
+      closeQuoteModal();
+    }, 2500);
 
   } catch (err) {
     alert('Something went wrong. Please call us at (587) 839-5484.');
