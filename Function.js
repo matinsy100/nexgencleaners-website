@@ -28,7 +28,7 @@ async function submitQuote(e) {
   };
 
   const SCRIPT_URLS = [
-    'https://script.google.com/macros/s/AKfycbxRFf3AD8wvhoCs_-TUxVgqYZnIyfc2lR5iXGam1cfTuGPTwIeqxbG4P-_sxofJG-JjaA/exec',
+    'https://script.google.com/macros/s/AKfycbwJR1h6b_q529IfgltEdYwFYi7IKw7zgvX5CRZsvoqzgzsqqHRxV4fP6SDktFcq6K7NAA/exec',
     'https://script.google.com/macros/s/AKfycbzNvPkbYvntfxMRYLIrGVJgKoaXSxrh4QLFPJMm2qVGkzBbHgpo-w3KL5SBU-bM1AQC/exec'
   ];
 
