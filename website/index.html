@@ -1268,25 +1268,15 @@ async function submitQuote(e) {
   };
 
 const SHEET_URL = '/.netlify/functions/quote';
-const SHEET_URL1 = '/.netlify/functions/quote2'; // Or whatever your 2nd function is named
+  
+try {
+    const response = await fetch(SHEET_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
 
-  try {
-    // Fire off both requests simultaneously
-    const [response1, response2] = await Promise.all([
-      fetch(SHEET_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      }),
-      fetch(SHEET_URL1, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      })
-    ]);
-
-    // Check if both succeeded
-    if (!response1.ok || !response2.ok) throw new Error('One or more functions failed');
+    if (!response.ok) throw new Error('Function failed');
 
     // Success UI logic
     btn.textContent = '✓ Request Sent!';
@@ -1304,6 +1294,7 @@ const SHEET_URL1 = '/.netlify/functions/quote2'; // Or whatever your 2nd functio
     btn.textContent = 'Send My Request →';
     btn.disabled = false;
   }
+}
 </script>
 
 </body>
