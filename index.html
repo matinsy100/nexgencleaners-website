@@ -11,7 +11,7 @@
 <meta name="author" content="Nexgen Cleaners">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.nexgencleaners.ca/">
-  
+
 <!-- ── GEO TAGS ── -->
 <meta name="geo.region" content="CA-AB">
 <meta name="geo.placename" content="Calgary, Alberta">
@@ -1239,69 +1239,7 @@
   const dots
 </script>
 
-<script>
-async function submitQuote(e) {
-  e.preventDefault();
-
-  const form = document.getElementById('quoteForm');
-  const btn  = form.querySelector('.form-submit');
-  const inputs = form.querySelectorAll('input, select, textarea');
-
-  // Basic validation
-  const firstName = form.querySelector('input[placeholder="Jane"]').value.trim();
-  const email     = form.querySelector('input[type="email"]').value.trim();
-  if (!firstName || !email) {
-    alert('Please fill in at least your name and email.');
-    return;
-  }
-
-  // Disable button while sending
-  btn.textContent = 'Sending…';
-  btn.disabled = true;
-
-  const data = {
-    token:        'nexgen-quote-2026',
-    firstName:    firstName,
-    lastName:     form.querySelector('input[placeholder="Smith"]').value.trim(),
-    email:        email,
-    phone:        form.querySelector('input[type="tel"]').value.trim(),
-    service:      form.querySelector('#modalServiceSelect').value,
-    propertyType: form.querySelectorAll('select')[1].value,
-    bedrooms:     form.querySelectorAll('select')[2].value,
-    bathrooms:    form.querySelectorAll('select')[3].value,
-    size:         form.querySelectorAll('select')[4].value,
-    notes:        form.querySelector('textarea').value.trim()
-  };
-
-  const SHEET_URL = '/.netlify/functions/quote';
-
-  try {
-    const response = await fetch(SHEET_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-
-    if (!response.ok) throw new Error('Function failed');
-
-    // Success
-    btn.textContent = '✓ Request Sent!';
-    btn.style.background = '#6B7B5E';
-    setTimeout(() => {
-      form.reset();
-      btn.textContent = 'Send My Request →';
-      btn.style.background = '';
-      btn.disabled = false;
-      closeQuoteModal();
-    }, 2500);
-
-  } catch (err) {
-    alert('Something went wrong. Please call us at (587) 839-5484.');
-    btn.textContent = 'Send My Request →';
-    btn.disabled = false;
-  }
-}
-</script>
+<script src="function.js"></script>
 
 </body>
 </html>
