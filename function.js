@@ -41,6 +41,7 @@ async function submitQuote(e) {
       });
     }));
 
+    // With no-cors we assume success if no network error
     btn.textContent = '✓ Request Sent!';
     btn.style.background = '#6B7B5E';
     setTimeout(() => {
@@ -50,9 +51,11 @@ async function submitQuote(e) {
       btn.disabled = false;
       closeQuoteModal();
     }, 2500);
+
   } catch (err) {
-    alert('Something went wrong. Please call us at (587) 839-5484.');
     btn.textContent = 'Send My Request →';
     btn.disabled = false;
+    btn.style.background = '';
+    alert('Something went wrong. Please call us directly at (587) 839-5484.');
   }
 }
