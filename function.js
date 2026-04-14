@@ -1,10 +1,97 @@
+/* ── SLIDESHOW ── */
+let currentSlide = 0;
+let slideshowTimer = null;
+
+function goToSlide(index) {
+  const slides = document.querySelectorAll('.slide');
+  const dots   = document.querySelectorAll('.dot');
+
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+
+  currentSlide = (index + slides.length) % slides.length;
+
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+
+  // Reset the auto-advance timer whenever the user manually changes slide
+  resetTimer();
+}
+
+function nextSlide() {
+  goToSlide(currentSlide + 1);
+}
+
+function resetTimer() {
+  if (slideshowTimer) clearInterval(slideshowTimer);
+  slideshowTimer = setInterval(nextSlide, 5000);
+}
+
+// Kick off auto-advance on load
+document.addEventListener('DOMContentLoaded', function () {
+  resetTimer();
+});
+
+
+/* ── MODAL ── */
+function openQuoteModal(service) {
+  const modal = document.getElementById('quoteModal');
+  if (!modal) return;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  if (service) {
+    const select = document.getElementById('modalServiceSelect');
+    if (select) {
+      for (let i = 0; i < select.options.length; i++) {
+        if (select.options[i].text === service) {
+          select.selectedIndex = i;
+          break;
+        }
+      }
+    }
+  }
+}
+
+function closeQuoteModal() {
+  const modal = document.getElementById('quoteModal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('quoteModal')) {
+    closeQuoteModal();
+  }
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') closeQuoteModal();
+});
+
+
+/* ── MOBILE MENU ── */
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  if (menu) menu.classList.toggle('active');
+}
+
+function closeMenu() {
+  const menu = document.getElementById('mobileMenu');
+  if (menu) menu.classList.remove('active');
+}
+
+
+/* ── QUOTE FORM ── */
 async function submitQuote(e) {
   e.preventDefault();
   const form = document.getElementById('quoteForm');
   const btn  = form.querySelector('.form-submit');
-
   const firstName = form.querySelector('input[placeholder="Jane"]').value.trim();
   const email     = form.querySelector('input[type="email"]').value.trim();
+
   if (!firstName || !email) {
     alert('Please fill in at least your name and email.');
     return;
@@ -35,15 +122,12 @@ async function submitQuote(e) {
   try {
     await Promise.all(SCRIPT_URLS.map(url => {
       const params = new URLSearchParams(data);
-      return fetch(url + '?' + params.toString(), {
-        method: 'GET',
-        mode: 'no-cors'
-      });
+      return fetch(url + '?' + params.toString(), { method: 'GET', mode: 'no-cors' });
     }));
 
-    // With no-cors we assume success if no network error
     btn.textContent = '✓ Request Sent!';
     btn.style.background = '#6B7B5E';
+
     setTimeout(() => {
       form.reset();
       btn.textContent = 'Send My Request →';
