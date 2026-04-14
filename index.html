@@ -622,43 +622,172 @@
   .modal-overlay {
     display: none;
     position: fixed; inset: 0; z-index: 200;
-    background: rgba(30,30,30,0.55);
-    backdrop-filter: blur(6px);
+    background: rgba(20,16,12,0.7);
+    backdrop-filter: blur(8px);
     align-items: center; justify-content: center;
-    padding: 2rem;
+    padding: 1.5rem;
   }
   .modal-overlay.active { display: flex; }
+
   .modal-box {
-    background: var(--light);
-    max-width: 580px; width: 100%;
-    max-height: 90vh; overflow-y: auto;
-    padding: 3.5rem 3rem 3rem;
+    background: var(--white);
+    max-width: 640px; width: 100%;
+    max-height: 92vh; overflow-y: auto;
     position: relative;
-    animation: modalIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+    animation: modalIn 0.4s cubic-bezier(0.34,1.4,0.64,1) both;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(196,121,90,0.3) transparent;
   }
+  .modal-box::-webkit-scrollbar { width: 4px; }
+  .modal-box::-webkit-scrollbar-thumb { background: rgba(196,121,90,0.3); border-radius: 2px; }
+
   @keyframes modalIn {
-    from { opacity: 0; transform: scale(0.92) translateY(20px); }
+    from { opacity: 0; transform: scale(0.94) translateY(24px); }
     to   { opacity: 1; transform: scale(1) translateY(0); }
   }
+
+  /* Header band */
+  .modal-header {
+    background: var(--dark);
+    padding: 2.8rem 3rem 2.4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .modal-header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: rgba(196,121,90,0.12);
+  }
+  .modal-header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 20px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(196,121,90,0.07);
+  }
+
   .modal-close {
     position: absolute; top: 1.2rem; right: 1.4rem;
-    background: none; border: none; cursor: pointer;
-    font-size: 1.1rem; color: var(--mid);
-    line-height: 1; padding: 0.3rem 0.5rem;
-    transition: color 0.2s;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+    cursor: pointer; color: rgba(255,255,255,0.7);
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; transition: all 0.2s; z-index: 2;
+    border-radius: 0;
   }
-  .modal-close:hover { color: var(--terracotta); }
-  .modal-header { margin-bottom: 2rem; }
+  .modal-close:hover { background: var(--terracotta); border-color: var(--terracotta); color: white; }
+
   .modal-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2.2rem; font-weight: 300;
-    color: var(--dark); line-height: 1.1; margin-top: 0.5rem;
+    font-size: 2.6rem; font-weight: 300;
+    color: var(--white); line-height: 1.05;
+    margin-top: 0.6rem; position: relative; z-index: 1;
   }
-  .modal-title em { font-style: italic; color: var(--terracotta); }
+  .modal-title em { font-style: italic; color: var(--terracotta-light); }
   .modal-sub {
-    font-size: 0.85rem; color: var(--mid); font-weight: 300;
-    line-height: 1.7; margin-top: 0.6rem;
+    font-size: 0.8rem; color: rgba(255,255,255,0.5); font-weight: 300;
+    line-height: 1.7; margin-top: 0.7rem; position: relative; z-index: 1;
+    letter-spacing: 0.02em;
   }
+  .modal-header .section-tag {
+    color: var(--terracotta-light);
+    position: relative; z-index: 1;
+  }
+
+  /* Form body */
+  .modal-body {
+    padding: 2.5rem 3rem 3rem;
+  }
+
+  .form-section-label {
+    font-size: 0.58rem; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--terracotta);
+    font-weight: 500;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(196,121,90,0.18);
+    margin-bottom: 1.2rem;
+    margin-top: 0.2rem;
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  .form-section-label::after {
+    content: ''; flex: 1;
+    height: 1px; background: rgba(196,121,90,0.18);
+    display: none;
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+
+  .form-group label {
+    font-size: 0.58rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--mid);
+    font-weight: 400;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem; font-weight: 300;
+    padding: 0.9rem 1.1rem;
+    border: 1.5px solid rgba(196,121,90,0.2);
+    background: var(--light); color: var(--dark);
+    outline: none; transition: all 0.25s;
+    resize: vertical;
+    appearance: none;
+    border-radius: 0;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--terracotta);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(196,121,90,0.08);
+  }
+  .form-group input[type="date"] {
+    color: var(--mid);
+    cursor: pointer;
+  }
+  .form-group input[type="date"]:valid { color: var(--dark); }
+
+  /* Time slot pills */
+  .time-slots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+  }
+  .time-slot {
+    padding: 0.7rem 0.5rem;
+    border: 1.5px solid rgba(196,121,90,0.2);
+    background: var(--light);
+    cursor: pointer; text-align: center;
+    transition: all 0.2s;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem; font-weight: 300;
+    color: var(--mid); letter-spacing: 0.04em;
+    user-select: none;
+  }
+  .time-slot:hover { border-color: var(--terracotta); color: var(--terracotta); background: var(--terracotta-pale); }
+  .time-slot.selected { background: var(--terracotta); border-color: var(--terracotta); color: var(--white); font-weight: 400; }
+  input[name="timeSlot"] { display: none; }
+
+  .form-submit {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--white);
+    background: var(--terracotta); padding: 1.2rem;
+    border: none; cursor: pointer;
+    transition: all 0.3s; margin-top: 0.6rem;
+    width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+  }
+  .form-submit:hover { background: var(--dark); letter-spacing: 0.24em; }
+  .form-submit svg { width: 14px; height: 14px; transition: transform 0.3s; }
+  .form-submit:hover svg { transform: translateX(4px); }
 
   /* ── ANIMATIONS ── */
   @keyframes fadeUp {
@@ -756,6 +885,9 @@
       gap: 2.5rem;
     }
     .form-row { grid-template-columns: 1fr; }
+    .time-slots { grid-template-columns: repeat(2, 1fr); }
+    .modal-header { padding: 2rem 1.5rem 1.8rem; }
+    .modal-body { padding: 1.8rem 1.5rem 2rem; }
 
     /* Bigger tap targets on mobile */
     .form-group input,
@@ -841,6 +973,11 @@
       const option = Array.from(select.options).find(o => o.value === service || o.text === service);
       if (option) select.value = option.value;
     }
+    // Set minimum date to today on date inputs
+    const today = new Date().toISOString().split('T')[0];
+    const d1 = document.getElementById('inspectionDate');
+    if (d1) d1.min = today;
+
     // Attach phone formatter once modal is visible
     const phoneInput = document.getElementById('phoneInput');
     if (phoneInput && !phoneInput._formatted) {
@@ -871,6 +1008,12 @@
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeQuoteModal();
   });
+
+  function selectTime(el, value) {
+    document.querySelectorAll('.time-slot').forEach(t => t.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('inspectionTime').value = value;
+  }
 </script>
 
 <!-- HERO -->
@@ -1106,13 +1249,20 @@
 <!-- QUOTE MODAL -->
 <div class="modal-overlay" id="quoteModal" onclick="handleOverlayClick(event)">
   <div class="modal-box">
-    <button class="modal-close" onclick="closeQuoteModal()" aria-label="Close">✕</button>
+
+    <!-- Dark header band -->
     <div class="modal-header">
+      <button class="modal-close" onclick="closeQuoteModal()" aria-label="Close">✕</button>
       <span class="section-tag">Book an Inspection</span>
       <h2 class="modal-title">Let's see your <em>space</em></h2>
-      <p class="modal-sub">We'll visit your property first and follow up with a tailored quote within 24 hours.</p>
+      <p class="modal-sub">Tell us when works best — we'll visit first, then follow up with your tailored quote.</p>
     </div>
+
+    <!-- Form body -->
+    <div class="modal-body">
     <form class="contact-form" id="quoteForm" onsubmit="submitQuote(event);">
+
+      <div class="form-section-label">Contact Information</div>
       <div class="form-row">
         <div class="form-group">
           <label>First Name</label>
@@ -1123,50 +1273,81 @@
           <input type="text" placeholder="Smith">
         </div>
       </div>
-      <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" placeholder="jane@example.com">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" placeholder="jane@example.com">
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="phoneInput" placeholder="(587) 000-0000" maxlength="14" inputmode="numeric">
+        </div>
       </div>
-      <div class="form-group">
-        <label>Phone Number</label>
-        <input type="tel" id="phoneInput" placeholder="(587) 000-0000" maxlength="14" inputmode="numeric">
-      </div>
+
+      <div class="form-section-label" style="margin-top:0.8rem;">Property Details</div>
       <div class="form-group">
         <label>Property Address</label>
         <input type="text" placeholder="123 Main St, Calgary, AB">
       </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Property Type</label>
+          <select>
+            <option value="">Select type...</option>
+            <option>House</option>
+            <option>Apartment / Condo</option>
+            <option>Townhouse</option>
+            <option>Office / Commercial Space</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Service Type</label>
+          <select id="modalServiceSelect">
+            <option value="">Select a service...</option>
+            <option>Residential Cleaning</option>
+            <option>Maid Services</option>
+            <option>Deep Cleaning</option>
+            <option>Move In / Move Out</option>
+            <option>Post-Construction</option>
+            <option>Window Cleaning</option>
+            <option>Commercial Cleaning</option>
+            <option>Commercial Deep Cleaning</option>
+            <option>Recurring Plan</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section-label" style="margin-top:0.8rem;">Preferred Inspection Time</div>
       <div class="form-group">
-        <label>Service Type</label>
-        <select id="modalServiceSelect">
-          <option value="">Select a service...</option>
-          <option>Residential Cleaning</option>
-          <option>Maid Services</option>
-          <option>Deep Cleaning</option>
-          <option>Move In / Move Out</option>
-          <option>Post-Construction</option>
-          <option>Window Cleaning</option>
-          <option>Commercial Cleaning</option>
-          <option>Commercial Deep Cleaning</option>
-          <option>Recurring Plan</option>
-        </select>
+        <label>Preferred Date</label>
+        <input type="date" id="inspectionDate">
       </div>
       <div class="form-group">
-        <label>Property Type</label>
-        <select>
-          <option value="">Select property type...</option>
-          <option>House</option>
-          <option>Apartment / Condo</option>
-          <option>Townhouse</option>
-          <option>Office / Commercial Space</option>
-          <option>Other</option>
-        </select>
+        <label>Time Window</label>
+        <div class="time-slots" id="timeSlots">
+          <div class="time-slot" onclick="selectTime(this, 'Morning (7am–10am)')">Morning<br><span style="font-size:0.65rem;opacity:0.7;">7am – 10am</span></div>
+          <div class="time-slot" onclick="selectTime(this, 'Late Morning (10am–12pm)')">Late Morning<br><span style="font-size:0.65rem;opacity:0.7;">10am – 12pm</span></div>
+          <div class="time-slot" onclick="selectTime(this, 'Afternoon (12pm–3pm)')">Afternoon<br><span style="font-size:0.65rem;opacity:0.7;">12pm – 3pm</span></div>
+          <div class="time-slot" onclick="selectTime(this, 'Late Afternoon (3pm–6pm)')">Late Afternoon<br><span style="font-size:0.65rem;opacity:0.7;">3pm – 6pm</span></div>
+          <div class="time-slot" onclick="selectTime(this, 'Evening (6pm–10pm)')">Evening<br><span style="font-size:0.65rem;opacity:0.7;">6pm – 10pm</span></div>
+          <div class="time-slot" onclick="selectTime(this, 'Flexible')">Flexible<br><span style="font-size:0.65rem;opacity:0.7;">Any time</span></div>
+        </div>
+        <input type="hidden" id="inspectionTime" name="timeSlot">
       </div>
-      <div class="form-group">
+
+      <div class="form-group" style="margin-top:0.4rem;">
         <label>Additional Notes</label>
-        <textarea rows="3" placeholder="Anything we should know before the inspection? Pets, access instructions, areas of concern..."></textarea>
+        <textarea rows="3" placeholder="Pets, access instructions, areas of concern..."></textarea>
       </div>
-      <button class="form-submit" type="submit">Send My Request →</button>
+
+      <button class="form-submit" type="submit">
+        Request Inspection
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
     </form>
+    </div>
+
   </div>
 </div>
 
