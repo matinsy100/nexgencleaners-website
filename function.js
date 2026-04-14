@@ -106,11 +106,9 @@ async function submitQuote(e) {
     lastName:     form.querySelector('input[placeholder="Smith"]').value.trim(),
     email:        email,
     phone:        form.querySelector('input[type="tel"]').value.trim(),
+    address:      form.querySelector('input[placeholder="123 Main St, Calgary, AB"]').value.trim(),
     service:      form.querySelector('#modalServiceSelect').value,
     propertyType: form.querySelectorAll('select')[1].value,
-    bedrooms:     form.querySelectorAll('select')[2].value,
-    bathrooms:    form.querySelectorAll('select')[3].value,
-    size:         form.querySelectorAll('select')[4].value,
     notes:        form.querySelector('textarea').value.trim()
   };
 
