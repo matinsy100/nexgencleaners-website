@@ -14,7 +14,6 @@ function goToSlide(index) {
   slides[currentSlide].classList.add('active');
   dots[currentSlide].classList.add('active');
 
-  // Reset the auto-advance timer whenever the user manually changes slide
   resetTimer();
 }
 
@@ -27,7 +26,6 @@ function resetTimer() {
   slideshowTimer = setInterval(nextSlide, 5000);
 }
 
-// Kick off auto-advance on load
 document.addEventListener('DOMContentLoaded', function () {
   resetTimer();
 });
@@ -51,6 +49,31 @@ function openQuoteModal(service) {
       }
     }
   }
+
+  // Set min date to today
+  const today = new Date().toISOString().split('T')[0];
+  const d1 = document.getElementById('inspectionDate');
+  if (d1) d1.min = today;
+
+  // Phone formatter
+  const phoneInput = document.getElementById('phoneInput');
+  if (phoneInput && !phoneInput._formatted) {
+    phoneInput._formatted = true;
+    phoneInput.addEventListener('input', function() {
+      let digits = this.value.replace(/\D/g, '').slice(0, 10);
+      let formatted = '';
+      if (digits.length === 0) {
+        formatted = '';
+      } else if (digits.length <= 3) {
+        formatted = '(' + digits;
+      } else if (digits.length <= 6) {
+        formatted = '(' + digits.slice(0,3) + ') ' + digits.slice(3);
+      } else {
+        formatted = '(' + digits.slice(0,3) + ') ' + digits.slice(3,6) + '-' + digits.slice(6);
+      }
+      this.value = formatted;
+    });
+  }
 }
 
 function closeQuoteModal() {
@@ -66,10 +89,15 @@ function handleOverlayClick(e) {
   }
 }
 
-// Close modal on Escape key
 document.addEventListener('keydown', function (e) {
   if (e.key === 'Escape') closeQuoteModal();
 });
+
+function selectTime(el, value) {
+  document.querySelectorAll('.time-slot').forEach(t => t.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('inspectionTime').value = value;
+}
 
 
 /* ── MOBILE MENU ── */
@@ -97,19 +125,21 @@ async function submitQuote(e) {
     return;
   }
 
-  btn.textContent = 'Sending…';
+  btn.innerHTML = 'Sending…';
   btn.disabled = true;
 
   const data = {
-    token:        'nexgen-quote-2026',
-    firstName:    firstName,
-    lastName:     form.querySelector('input[placeholder="Smith"]').value.trim(),
-    email:        email,
-    phone:        form.querySelector('input[type="tel"]').value.trim(),
-    address:      form.querySelector('input[placeholder="123 Main St, Calgary, AB"]').value.trim(),
-    service:      form.querySelector('#modalServiceSelect').value,
-    propertyType: form.querySelectorAll('select')[1].value,
-    notes:        form.querySelector('textarea').value.trim()
+    token:          'nexgen-quote-2026',
+    firstName:      firstName,
+    lastName:       form.querySelector('input[placeholder="Smith"]').value.trim(),
+    email:          email,
+    phone:          form.querySelector('input[type="tel"]').value.trim(),
+    address:        form.querySelector('input[placeholder="123 Main St, Calgary, AB"]').value.trim(),
+    service:        form.querySelector('#modalServiceSelect').value,
+    propertyType:   form.querySelectorAll('select')[1].value,
+    inspectionDate: document.getElementById('inspectionDate').value,
+    inspectionTime: document.getElementById('inspectionTime').value,
+    notes:          form.querySelector('textarea').value.trim()
   };
 
   const SCRIPT_URLS = [
@@ -123,19 +153,20 @@ async function submitQuote(e) {
       return fetch(url + '?' + params.toString(), { method: 'GET', mode: 'no-cors' });
     }));
 
-    btn.textContent = '✓ Request Sent!';
+    btn.innerHTML = '✓ Inspection Requested!';
     btn.style.background = '#6B7B5E';
 
     setTimeout(() => {
       form.reset();
-      btn.textContent = 'Send My Request →';
+      document.querySelectorAll('.time-slot').forEach(t => t.classList.remove('selected'));
+      btn.innerHTML = 'Request Inspection <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
       btn.style.background = '';
       btn.disabled = false;
       closeQuoteModal();
     }, 2500);
 
   } catch (err) {
-    btn.textContent = 'Send My Request →';
+    btn.innerHTML = 'Request Inspection <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
     btn.disabled = false;
     btn.style.background = '';
     alert('Something went wrong. Please call us directly at (587) 839-5484.');
