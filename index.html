@@ -180,11 +180,45 @@
     padding: 6rem 4rem 6rem 6rem;
     position: relative;
   }
-  .hero-left::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-    background: url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='350' cy='50' r='200' fill='%23C4795A' fill-opacity='0.04'/%3E%3C/svg%3E") no-repeat right top;
-    pointer-events: none;
+  .hero-left::before { display: none; }
+
+  .hero-circle {
+    position: absolute;
+    pointer-events: none; z-index: 0;
+  }
+  .hero-circle-1 {
+    top: -60px; right: -80px;
+    width: 420px; height: 420px;
+    animation: circleDrift1 8s ease-in-out infinite;
+  }
+  .hero-circle-2 {
+    bottom: 60px; left: -60px;
+    width: 260px; height: 260px;
+    animation: circleDrift2 11s ease-in-out infinite;
+  }
+  .hero-circle-3 {
+    top: 42%; right: 28%;
+    width: 150px; height: 150px;
+    animation: circleDrift3 6.5s ease-in-out infinite;
+  }
+  @keyframes circleDrift1 {
+    0%   { transform: translate(0, 0) scale(1); }
+    25%  { transform: translate(-18px, 22px) scale(1.04); }
+    50%  { transform: translate(-8px, 40px) scale(0.97); }
+    75%  { transform: translate(14px, 18px) scale(1.02); }
+    100% { transform: translate(0, 0) scale(1); }
+  }
+  @keyframes circleDrift2 {
+    0%   { transform: translate(0, 0) scale(1); }
+    30%  { transform: translate(20px, -25px) scale(1.06); }
+    60%  { transform: translate(10px, -10px) scale(0.95); }
+    100% { transform: translate(0, 0) scale(1); }
+  }
+  @keyframes circleDrift3 {
+    0%   { transform: translate(0, 0) scale(1); }
+    40%  { transform: translate(-12px, 16px) scale(1.1); }
+    70%  { transform: translate(8px, -8px) scale(0.93); }
+    100% { transform: translate(0, 0) scale(1); }
   }
   .hero-eyebrow {
     font-size: 0.82rem;
@@ -819,6 +853,15 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
+    <svg class="hero-circle hero-circle-1" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="200" cy="200" r="200" fill="#C4795A" fill-opacity="0.07"/>
+    </svg>
+    <svg class="hero-circle hero-circle-2" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="200" cy="200" r="200" fill="#C4795A" fill-opacity="0.05"/>
+    </svg>
+    <svg class="hero-circle hero-circle-3" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="200" cy="200" r="200" fill="#6B7B5E" fill-opacity="0.06"/>
+    </svg>
     <p class="hero-eyebrow">Professional Cleaning Services</p>
     <h1 class="hero-heading">
       A cleaner home,<br>a <em>calmer</em> life.
@@ -1224,13 +1267,6 @@
     </div>
   </div>
 </footer>
-
-<script>
-  // Slideshow — runs after DOM is fully loaded
-  let currentSlide = 0;
-  const slides = document.querySelectorAll('.slide');
-  const dots
-</script>
 
 <script src="function.js"></script>
 
