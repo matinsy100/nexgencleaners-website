@@ -109,13 +109,14 @@
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100%; }
 
   body {
     font-family: 'Jost', sans-serif;
     background: var(--light);
     color: var(--dark);
     overflow-x: hidden;
+    max-width: 100%;
   }
 
   /* ── NAV ── */
@@ -126,6 +127,8 @@
     background: rgba(249,245,242,0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(196,121,90,0.15);
+    width: 100%;
+    box-sizing: border-box;
   }
   .nav-logo {
     font-family: 'Cormorant Garamond', serif;
@@ -174,6 +177,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding-top: 80px;
+    width: 100%;
   }
   .hero-left {
     display: flex; flex-direction: column; justify-content: center;
@@ -321,6 +325,7 @@
     display: flex; gap: 3rem;
     position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%);
     z-index: 3; white-space: nowrap;
+    max-width: calc(100% - 2rem);
   }
   .hero-stat { text-align: center; }
   .hero-stat-num {
@@ -813,7 +818,6 @@
   <a href="#about" onclick="closeMenu()">About</a>
   <a href="#contact" onclick="closeMenu()">Contact</a>
   <a href="javascript:void(0)" onclick="closeMenu(); openQuoteModal()">Get a Free Quote</a>
-  <a href="https://www.instagram.com/mynexgencleaners/" target="_blank" onclick="closeMenu()">Instagram</a>
 </div>
 
 <script>
@@ -925,7 +929,7 @@
       </svg>
       <h3 class="service-name">Residential Cleaning</h3>
       <p class="service-desc">Regular maintenance cleans that keep your home fresh, organized, and spotless. Weekly, bi-weekly, or monthly schedules available.</p>
-      <p class="service-price">Starting from $120</p>
+
       <span class="service-card-cta">Get a Quote →</span>
     </div>
     <div class="service-card" onclick="openQuoteModal('Commercial Cleaning')">
@@ -935,7 +939,7 @@
       </svg>
       <h3 class="service-name">Commercial Cleaning</h3>
       <p class="service-desc">Offices, retail spaces, and commercial properties cleaned to the highest professional standard — before or after hours.</p>
-      <p class="service-price">Custom Quotes</p>
+
       <span class="service-card-cta">Get a Quote →</span>
     </div>
     <div class="service-card" onclick="openQuoteModal('Move In / Move Out')">
@@ -946,7 +950,7 @@
       </svg>
       <h3 class="service-name">Move In / Move Out</h3>
       <p class="service-desc">Comprehensive top-to-bottom cleans for transitions. We leave every inch immaculate for the next chapter.</p>
-      <p class="service-price">Starting from $220</p>
+
       <span class="service-card-cta">Get a Quote →</span>
     </div>
     <div class="service-card" onclick="openQuoteModal('Deep Cleaning')">
@@ -955,7 +959,7 @@
       </svg>
       <h3 class="service-name">Deep Cleaning</h3>
       <p class="service-desc">A thorough, intensive clean that tackles every corner, crevice, and surface — ideal for seasonal refreshes or post-renovation.</p>
-      <p class="service-price">Starting from $280</p>
+
       <span class="service-card-cta">Get a Quote →</span>
     </div>
     <div class="service-card" onclick="openQuoteModal('Post-Construction')">
@@ -966,7 +970,7 @@
       </svg>
       <h3 class="service-name">Post-Construction</h3>
       <p class="service-desc">Dust, debris, and construction residue vanish under our expert care — revealing the beautiful space beneath.</p>
-      <p class="service-price">Starting from $350</p>
+
       <span class="service-card-cta">Get a Quote →</span>
     </div>
     <div class="service-card" onclick="openQuoteModal('Recurring Plan')">
@@ -977,7 +981,7 @@
       </svg>
       <h3 class="service-name">Recurring Plans</h3>
       <p class="service-desc">Subscribe and save — our recurring plans ensure your space is always ready, with priority scheduling and loyalty discounts.</p>
-      <p class="service-price">Save up to 20%</p>
+
       <span class="service-card-cta">Get a Quote →</span>
     </div>
     <div class="service-card" onclick="openQuoteModal('Maid Services')">
@@ -988,7 +992,7 @@
       </svg>
       <h3 class="service-name">Maid Services</h3>
       <p class="service-desc">Reliable, recurring maid services tailored to your schedule. A trusted cleaner, consistent results, every visit.</p>
-      <p class="service-price">Starting from $100</p>
+
       <span class="service-card-cta">Get a Quote →</span>
     </div>
     <div class="service-card" onclick="openQuoteModal('Window Cleaning')">
@@ -999,7 +1003,7 @@
       </svg>
       <h3 class="service-name">Window Cleaning</h3>
       <p class="service-desc">Crystal-clear windows inside and out. We remove grime, streaks, and buildup for a spotless view every time.</p>
-      <p class="service-price">Starting from $80</p>
+
       <span class="service-card-cta">Get a Quote →</span>
     </div>
     <div class="service-card" onclick="openQuoteModal('Commercial Deep Cleaning')">
@@ -1012,7 +1016,7 @@
       </svg>
       <h3 class="service-name">Commercial Deep Cleaning</h3>
       <p class="service-desc">Heavy-duty commercial cleans for offices, warehouses, and facilities that need a thorough reset from top to bottom.</p>
-      <p class="service-price">Custom Quotes</p>
+
       <span class="service-card-cta">Get a Quote →</span>
     </div>
   </div>
