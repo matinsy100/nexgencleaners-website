@@ -841,6 +841,25 @@
       const option = Array.from(select.options).find(o => o.value === service || o.text === service);
       if (option) select.value = option.value;
     }
+    // Attach phone formatter once modal is visible
+    const phoneInput = document.getElementById('phoneInput');
+    if (phoneInput && !phoneInput._formatted) {
+      phoneInput._formatted = true;
+      phoneInput.addEventListener('input', function() {
+        let digits = this.value.replace(/\D/g, '').slice(0, 10);
+        let formatted = '';
+        if (digits.length === 0) {
+          formatted = '';
+        } else if (digits.length <= 3) {
+          formatted = '(' + digits;
+        } else if (digits.length <= 6) {
+          formatted = '(' + digits.slice(0,3) + ') ' + digits.slice(3);
+        } else {
+          formatted = '(' + digits.slice(0,3) + ') ' + digits.slice(3,6) + '-' + digits.slice(6);
+        }
+        this.value = formatted;
+      });
+    }
   }
   function closeQuoteModal() {
     document.getElementById('quoteModal').classList.remove('active');
@@ -1089,9 +1108,9 @@
   <div class="modal-box">
     <button class="modal-close" onclick="closeQuoteModal()" aria-label="Close">✕</button>
     <div class="modal-header">
-      <span class="section-tag">Free Quote</span>
-      <h2 class="modal-title">Book your <em>clean</em> today</h2>
-      <p class="modal-sub">Fill out the form and we'll get back to you within 24 hours.</p>
+      <span class="section-tag">Book an Inspection</span>
+      <h2 class="modal-title">Let's see your <em>space</em></h2>
+      <p class="modal-sub">We'll visit your property first and follow up with a tailored quote within 24 hours.</p>
     </div>
     <form class="contact-form" id="quoteForm" onsubmit="submitQuote(event);">
       <div class="form-row">
@@ -1110,7 +1129,11 @@
       </div>
       <div class="form-group">
         <label>Phone Number</label>
-        <input type="tel" placeholder="(587) 000-0000">
+        <input type="tel" id="phoneInput" placeholder="(587) 000-0000" maxlength="14" inputmode="numeric">
+      </div>
+      <div class="form-group">
+        <label>Property Address</label>
+        <input type="text" placeholder="123 Main St, Calgary, AB">
       </div>
       <div class="form-group">
         <label>Service Type</label>
@@ -1138,45 +1161,9 @@
           <option>Other</option>
         </select>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Bedrooms</label>
-          <select>
-            <option value="">How many?</option>
-            <option>Studio</option>
-            <option>1 Bedroom</option>
-            <option>2 Bedrooms</option>
-            <option>3 Bedrooms</option>
-            <option>4 Bedrooms</option>
-            <option>5+ Bedrooms</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Bathrooms</label>
-          <select>
-            <option value="">How many?</option>
-            <option>1 Bathroom</option>
-            <option>2 Bathrooms</option>
-            <option>3 Bathrooms</option>
-            <option>4+ Bathrooms</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Approximate Size</label>
-        <select>
-          <option value="">Select size range...</option>
-          <option>Under 500 sq ft</option>
-          <option>500 – 1,000 sq ft</option>
-          <option>1,000 – 1,500 sq ft</option>
-          <option>1,500 – 2,500 sq ft</option>
-          <option>2,500 – 4,000 sq ft</option>
-          <option>4,000+ sq ft</option>
-        </select>
-      </div>
       <div class="form-group">
         <label>Additional Notes</label>
-        <textarea rows="3" placeholder="Anything else we should know? Pets, special areas, access instructions..."></textarea>
+        <textarea rows="3" placeholder="Anything we should know before the inspection? Pets, access instructions, areas of concern..."></textarea>
       </div>
       <button class="form-submit" type="submit">Send My Request →</button>
     </form>
